@@ -82,6 +82,7 @@
     transition: transform 0.5s;
   }
 
+
   @keyframes fadeIn {
     0% { opacity: 0; transform: translateY(-50px); }
     100% { opacity: 1; transform: translateY(0); }
@@ -110,19 +111,19 @@
 </head>
 <body>
 <header>
-  <h1>FROM GTK TO KHS</h1>
+  <h1>KHS</h1>
 </header>
 <div class="container">
   <div id="birthdayWishesTitle">Birthday Wishes <i class="fas fa-birthday-cake"></i></div>
   <input type="date" id="dob">
   <button id="generateWish" onclick="generateWish()">Go <i class="fas fa-rocket"></i></button>
-  <div class="card" id="birthdayWish"></div>
+  <div class="card" id="birthdayWish">Select date of birth</div>
   <div id="age"></div>
   <div class="birthday-effects">&#127881;&#127873;&#127874;&#127874;&#127882;</div>
   <button id="downloadWish" onclick="downloadWish()">Get Your Wish Card Download Here</button>
 </div>
 <footer>
-  <p></p>
+  <p>From GTK</p>
 </footer>
 <script>
   const birthdayWishDiv = document.getElementById('birthdayWish');
