@@ -111,7 +111,7 @@
 </head>
 <body>
 <header>
-  <h1>FROM GTK TO KHS</h1>
+  <h1>Birthday Wishes FROM G.Thangella.K</h1>
 </header>
 <div class="container">
   <div id="birthdayWishesTitle">Birthday Wishes <i class="fas fa-birthday-cake"></i></div>
@@ -127,53 +127,61 @@
 </footer>
 <script>
   const birthdayWishDiv = document.getElementById('birthdayWish');
-  const dobInput = document.getElementById('dob');
-  const birthdayWishesTitle = document.getElementById('birthdayWishesTitle');
-  const ageDiv = document.getElementById('age');
-  const birthdayEffectsDiv = document.querySelector('.birthday-effects');
-  const generateWishButton = document.getElementById('generateWish');
+const dobInput = document.getElementById('dob');
+const generateWishButton = document.getElementById('generateWish');
+const downloadWishButton = document.getElementById('downloadWish');
 
-  function generateWish() {
-    const dob = new Date(dobInput.value);
-    const today = new Date();
-    const ageMilliseconds = today - dob;
+// Object containing target dates as keys and corresponding wish messages as values
+const targetDateMessages = {
+  '1995-04-26': `Happy birthday, Karumanchi Hussainaiah! 🎉\nAs you celebrate another year of life and wisdom, may your journey as an Angular developer be filled with countless opportunities to innovate, create, and inspire.\nMay your code be elegant, your bugs few, and your projects always successful.\nHere's to reaching new heights of proficiency and finding joy in every line of code you write.\nWishing you a fantastic birthday filled with laughter, joy, and unforgettable moments! 🥳🎂`;",
+  '2001-05-17': "Warmest birthday wishes to you! May your day be filled with happiness and unforgettable moments."
+  // Add more target dates and wish messages here if needed
+};
 
-    const ageInSeconds = Math.floor(ageMilliseconds / 1000);
-    const ageInMinutes = Math.floor(ageInSeconds / 60);
-    const ageInHours = Math.floor(ageInMinutes / 60);
-    const ageInDays = Math.floor(ageInHours / 24);
-    const ageInWeeks = Math.floor(ageInDays / 7);
-    const ageInYears = today.getFullYear() - dob.getFullYear();
-    const ageInMonths = today.getMonth() - dob.getMonth() + (12 * (today.getFullYear() - dob.getFullYear()));
+function generateWish() {
+  const dob = new Date(dobInput.value);
+  const targetDate = dob.toISOString().slice(0, 10); // Format selected date as 'YYYY-MM-DD'
 
-    ageDiv.innerHTML = `Successfully completed these many years ${ageInMonths} months ${ageInWeeks} weeks ${ageInDays} days ${ageInHours} hours ${ageInMinutes} minutes ${ageInSeconds} seconds`;
+  if (targetDate in targetDateMessages) {
+    const wishMessage = targetDateMessages[targetDate];
 
-    // Display birthday wish with typing animation
-    const wishMessage = `Happy birthday, Karumanchi Hussainaiah! 🎉\nAs you celebrate another year of life and wisdom, may your journey as an Angular developer be filled with countless opportunities to innovate, create, and inspire.\nMay your code be elegant, your bugs few, and your projects always successful.\nHere's to reaching new heights of proficiency and finding joy in every line of code you write.\nWishing you a fantastic birthday filled with laughter, joy, and unforgettable moments! 🥳🎂`;
+    // Display the wish message with typing animation
+    displayWishMessageWithTypingAnimation(wishMessage);
 
-    let i = 0;
-    birthdayWishDiv.innerHTML = ''; // Clear existing content
-    const typingInterval = setInterval(() => {
-      if (i < wishMessage.length) {
-        birthdayWishDiv.innerHTML += wishMessage.charAt(i);
-        i++;
-      } else {
-        clearInterval(typingInterval);
-      }
-    }, 50); // Typing speed in milliseconds
+    // Show the download button
+    downloadWishButton.style.display = 'inline-block';
 
-    // Show birthday effects
-    birthdayEffectsDiv.style.display = 'block';
-
-    // Zoom in and out animation
-    birthdayWishDiv.style.transform = 'scale(1.2)';
-    setTimeout(() => {
-      birthdayWishDiv.style.transform = 'scale(1)';
-    }, 1000); // 1 second delay before scaling back
-
-    // Disable the "Go" button after clicking it once
+    // Disable the "Generate Wish" button after clicking it
     generateWishButton.disabled = true;
+  } else {
+    alert('Sorry, birthday wishes are only generated for the specified dates.');
   }
+}
+
+function displayWishMessageWithTypingAnimation(message) {
+  birthdayWishDiv.innerHTML = ''; // Clear existing content
+
+  let i = 0;
+  const typingInterval = setInterval(() => {
+    if (i < message.length) {
+      birthdayWishDiv.innerHTML += message.charAt(i);
+      i++;
+    } else {
+      clearInterval(typingInterval);
+    }
+  }, 70); // Typing speed in milliseconds
+}
+
+function downloadWish() {
+  const wishContent = birthdayWishDiv.innerText;
+
+  const blob = new Blob([wishContent], { type: "text/plain;charset=utf-8" });
+  const link = document.createElement('a');
+  link.href = window.URL.createObjectURL(blob);
+  link.download = 'birthday_wish.txt';
+  link.click();
+}
+
 
   function downloadWish() {
     const wishContent = document.getElementById('birthdayWish').innerText;
