@@ -127,69 +127,72 @@
 </footer>
 <script>
   const birthdayWishDiv = document.getElementById('birthdayWish');
-const dobInput = document.getElementById('dob');
-const generateWishButton = document.getElementById('generateWish');
-const downloadWishButton = document.getElementById('downloadWish');
+  const dobInput = document.getElementById('dob');
+  const generateWishButton = document.getElementById('generateWish');
+  const downloadWishButton = document.getElementById('downloadWish');
 
-// Object containing target dates as keys and corresponding wish messages as values
+  // Object containing target dates as keys and corresponding wish messages as values
 const targetDateMessages = {
   '1995-04-26': `Happy birthday, Karumanchi Hussainaiah! 🎉\nAs you celebrate another year of life and wisdom, may your journey as an Angular developer be filled with countless opportunities to innovate, create, and inspire.\nMay your code be elegant, your bugs few, and your projects always successful.\nHere's to reaching new heights of proficiency and finding joy in every line of code you write.\nWishing you a fantastic birthday filled with laughter, joy, and unforgettable moments! 🥳🎂`,
   '2001-05-17': "Warmest birthday wishes to you! May your day be filled with happiness and unforgettable moments."
   // Add more target dates and wish messages here if needed
 };
 
-function generateWish() {
-  const dob = new Date(dobInput.value);
-  const targetDate = dob.toISOString().slice(0, 10); // Format selected date as 'YYYY-MM-DD'
 
-  if (targetDate in targetDateMessages) {
-    const wishMessage = targetDateMessages[targetDate];
+  function generateWish() {
+    const dob = new Date(dobInput.value);
+    const targetDate = dob.toISOString().slice(0, 10); // Format selected date as 'YYYY-MM-DD'
 
-    // Display the wish message with typing animation
-    displayWishMessageWithTypingAnimation(wishMessage);
+    if (targetDate in targetDateMessages) {
+      const wishMessage = targetDateMessages[targetDate];
+      const ageInfo = calculateAge(dob);
 
-    // Show the download button
-    downloadWishButton.style.display = 'inline-block';
+      // Display the wish message with age information
+      displayWishMessageWithTypingAnimation(`${wishMessage}\n\n${ageInfo}`);
 
-    // Disable the "Generate Wish" button after clicking it
-    generateWishButton.disabled = true;
-  } else {
-    alert('Sorry, birthday wishes are only generated for the specified dates.');
-  }
-}
+      // Show the download button
+      downloadWishButton.style.display = 'inline-block';
 
-function displayWishMessageWithTypingAnimation(message) {
-  birthdayWishDiv.innerHTML = ''; // Clear existing content
-
-  let i = 0;
-  const typingInterval = setInterval(() => {
-    if (i < message.length) {
-      birthdayWishDiv.innerHTML += message.charAt(i);
-      i++;
+      // Disable the "Generate Wish" button after clicking it
+      generateWishButton.disabled = true;
     } else {
-      clearInterval(typingInterval);
+      alert('Sorry, birthday wishes are only generated for the specified dates.');
     }
-  }, 70); // Typing speed in milliseconds
-}
+  }
 
-function downloadWish() {
-  const wishContent = birthdayWishDiv.innerText;
+  function calculateAge(dob) {
+    const today = new Date();
+    const ageMilliseconds = today - dob;
 
-  const blob = new Blob([wishContent], { type: "text/plain;charset=utf-8" });
-  const link = document.createElement('a');
-  link.href = window.URL.createObjectURL(blob);
-  link.download = 'birthday_wish.txt';
-  link.click();
-}
+    const ageInSeconds = Math.floor(ageMilliseconds / 1000);
+    const ageInMinutes = Math.floor(ageInSeconds / 60);
+    const ageInHours = Math.floor(ageInMinutes / 60);
+    const ageInDays = Math.floor(ageInHours / 24);
+    const ageInWeeks = Math.floor(ageInDays / 7);
+    const ageInYears = today.getFullYear() - dob.getFullYear();
+    const ageInMonths = today.getMonth() - dob.getMonth() + (12 * (today.getFullYear() - dob.getFullYear()));
 
+    return `Successfully living your life happily at Age: ${ageInYears} years, ${ageInMonths} months, ${ageInWeeks} weeks, ${ageInDays} days, ${ageInHours} hours, ${ageInMinutes} minutes, ${ageInSeconds} seconds is an impressive milestone  Seek out new experiences, challenges, and opportunities for personal and professional growth. Embracing change and learning continuously can lead to a more fulfilling and enriching life journey.`;
+  }
+
+  function displayWishMessageWithTypingAnimation(message) {
+    birthdayWishDiv.innerHTML = ''; // Clear existing content
+
+    let i = 0;
+    const typingInterval = setInterval(() => {
+      if (i < message.length) {
+        birthdayWishDiv.innerHTML += message.charAt(i);
+        i++;
+      } else {
+        clearInterval(typingInterval);
+      }
+    }, 70); // Typing speed in milliseconds
+  }
 
   function downloadWish() {
-    const wishContent = document.getElementById('birthdayWish').innerText;
-    const ageContent = document.getElementById('age').innerText;
+    const wishContent = birthdayWishDiv.innerText;
 
-    const wishData = `Birthday Wish:\n${wishContent}\n\nAge Info:\n${ageContent}`;
-
-    const blob = new Blob([wishData], { type: "text/plain;charset=utf-8" });
+    const blob = new Blob([wishContent], { type: "text/plain;charset=utf-8" });
     const link = document.createElement('a');
     link.href = window.URL.createObjectURL(blob);
     link.download = 'birthday_wish.txt';
@@ -197,11 +200,8 @@ function downloadWish() {
   }
 
   dobInput.addEventListener('change', function() {
-    // Enable the "Go" button when a date of birth is selected
+    // Enable the "Generate Wish" button when a date of birth is selected
     generateWishButton.disabled = false;
-
-    // Show the birthday wishes title when a date of birth is selected
-    birthdayWishesTitle.classList.add('show');
   });
 </script>
 </body>
