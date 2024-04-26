@@ -64,7 +64,7 @@
     background-color: #0056b3;
   }
 
-  .card {
+   .card {
     background-color: #fff;
     padding: 20px;
     border-radius: 10px;
@@ -111,19 +111,19 @@
 </head>
 <body>
 <header>
-  <h1>To KHS</h1>
+  <h1>KHS</h1>
 </header>
 <div class="container">
   <div id="birthdayWishesTitle">Birthday Wishes <i class="fas fa-birthday-cake"></i></div>
   <input type="date" id="dob">
-  <button id="generateWish" onclick="generateWish()">Go <i class="fas fa-rocket"></i></button>
+  <button id="generateWish" onclick="generateWish()" disabled>Go <i class="fas fa-rocket"></i></button>
   <div class="card" id="birthdayWish">Select date of birth</div>
   <div id="age"></div>
   <div class="birthday-effects">&#127881;&#127873;&#127874;&#127874;&#127882;</div>
   <button id="downloadWish" onclick="downloadWish()">Get Your Wish Card Download Here</button>
 </div>
 <footer>
-  <p>Built and Designed by G. Thangella.</p>
+  <p>From GTK</p>
 </footer>
 <script>
   const birthdayWishDiv = document.getElementById('birthdayWish');
@@ -131,6 +131,7 @@
   const birthdayWishesTitle = document.getElementById('birthdayWishesTitle');
   const ageDiv = document.getElementById('age');
   const birthdayEffectsDiv = document.querySelector('.birthday-effects');
+  const generateWishButton = document.getElementById('generateWish');
 
   function generateWish() {
     const dob = new Date(dobInput.value);
@@ -148,7 +149,7 @@
     ageDiv.innerHTML = `Successfully completed these many years ${ageInMonths} months ${ageInWeeks} weeks ${ageInDays} days ${ageInHours} hours ${ageInMinutes} minutes ${ageInSeconds} seconds`;
 
     // Display birthday wish with typing animation
-    const wishMessage = `Happy birthday, Karumanchi Hussainaiah! Anna 🎉\nAs you celebrate another year of life and wisdom, may your journey as an Angular developer be filled with countless opportunities to innovate, create, and inspire.\nMay your code be elegant, your bugs few, and your projects always successful.\nHere's to reaching new heights of proficiency and finding joy in every line of code you write.\nWishing you a fantastic birthday filled with laughter, joy, and unforgettable moments! 🥳🎂`;
+    const wishMessage = `Happy birthday, Karumanchi Hussainaiah! 🎉\nAs you celebrate another year of life and wisdom, may your journey as an Angular developer be filled with countless opportunities to innovate, create, and inspire.\nMay your code be elegant, your bugs few, and your projects always successful.\nHere's to reaching new heights of proficiency and finding joy in every line of code you write.\nWishing you a fantastic birthday filled with laughter, joy, and unforgettable moments! 🥳🎂`;
 
     let i = 0;
     birthdayWishDiv.innerHTML = ''; // Clear existing content
@@ -169,6 +170,9 @@
     setTimeout(() => {
       birthdayWishDiv.style.transform = 'scale(1)';
     }, 1000); // 1 second delay before scaling back
+
+    // Disable the "Go" button after clicking it once
+    generateWishButton.disabled = true;
   }
 
   function downloadWish() {
@@ -185,6 +189,9 @@
   }
 
   dobInput.addEventListener('change', function() {
+    // Enable the "Go" button when a date of birth is selected
+    generateWishButton.disabled = false;
+
     // Show the birthday wishes title when a date of birth is selected
     birthdayWishesTitle.classList.add('show');
   });
