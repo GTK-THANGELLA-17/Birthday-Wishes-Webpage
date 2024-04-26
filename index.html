@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Birthday Wishes</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- FontAwesome CSS -->
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #f4f4f4;
+    align-items: center;
+    justify-content: center;
+  }
+
+  header {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+    width: 100%;
+  }
+
+  footer {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+    margin-top: auto;
+    width: 100%;
+  }
+
+  .container {
+    text-align: center;
+    margin-top: 20px;
+    width: 80%;
+    max-width: 400px;
+  }
+
+  input[type="date"] {
+    padding: 10px;
+    width: 100%;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+
+  button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 20px;
+  }
+
+  button:hover {
+    background-color: #0056b3;
+  }
+
+  .card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    animation: fadeIn 1s forwards;
+    text-align: left;
+    font-size: 1.1em;
+    overflow: hidden;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    margin-bottom: 20px;
+    width: 400px;
+    height: 300px;
+    transition: transform 0.5s;
+  }
+
+  @keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(-50px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  #birthdayWishesTitle {
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+  }
+
+  #birthdayWishesTitle.show {
+    opacity: 1;
+  }
+
+  #age {
+    font-size: 1.2em;
+    margin-top: 20px;
+  }
+
+  .birthday-effects {
+    display: none;
+    font-size: 3em;
+    margin-top: 20px;
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>FROM GTK TO KHS</h1>
+</header>
+<div class="container">
+  <div id="birthdayWishesTitle">Birthday Wishes <i class="fas fa-birthday-cake"></i></div>
+  <input type="date" id="dob">
+  <button id="generateWish" onclick="generateWish()">Go <i class="fas fa-rocket"></i></button>
+  <div class="card" id="birthdayWish"></div>
+  <div id="age"></div>
+  <div class="birthday-effects">&#127881;&#127873;&#127874;&#127874;&#127882;</div>
+  <button id="downloadWish" onclick="downloadWish()">Get Your Wish Card Download Here</button>
+</div>
+<footer>
+  <p></p>
+</footer>
+<script>
+  const birthdayWishDiv = document.getElementById('birthdayWish');
+  const dobInput = document.getElementById('dob');
+  const birthdayWishesTitle = document.getElementById('birthdayWishesTitle');
+  const ageDiv = document.getElementById('age');
+  const birthdayEffectsDiv = document.querySelector('.birthday-effects');
+
+  function generateWish() {
+    const dob = new Date(dobInput.value);
+    const today = new Date();
+    const ageMilliseconds = today - dob;
+
+    const ageInSeconds = Math.floor(ageMilliseconds / 1000);
+    const ageInMinutes = Math.floor(ageInSeconds / 60);
+    const ageInHours = Math.floor(ageInMinutes / 60);
+    const ageInDays = Math.floor(ageInHours / 24);
+    const ageInWeeks = Math.floor(ageInDays / 7);
+    const ageInYears = today.getFullYear() - dob.getFullYear();
+    const ageInMonths = today.getMonth() - dob.getMonth() + (12 * (today.getFullYear() - dob.getFullYear()));
+
+    ageDiv.innerHTML = `Successfully completed these many years ${ageInMonths} months ${ageInWeeks} weeks ${ageInDays} days ${ageInHours} hours ${ageInMinutes} minutes ${ageInSeconds} seconds`;
+
+    // Display birthday wish with typing animation
+    const wishMessage = `Happy birthday, Karumanchi Hussainaiah! Anna 🎉\nAs you celebrate another year of life and wisdom, may your journey as an Angular developer be filled with countless opportunities to innovate, create, and inspire.\nMay your code be elegant, your bugs few, and your projects always successful.\nHere's to reaching new heights of proficiency and finding joy in every line of code you write.\nWishing you a fantastic birthday filled with laughter, joy, and unforgettable moments! 🥳🎂`;
+
+    let i = 0;
+    birthdayWishDiv.innerHTML = ''; // Clear existing content
+    const typingInterval = setInterval(() => {
+      if (i < wishMessage.length) {
+        birthdayWishDiv.innerHTML += wishMessage.charAt(i);
+        i++;
+      } else {
+        clearInterval(typingInterval);
+      }
+    }, 50); // Typing speed in milliseconds
+
+    // Show birthday effects
+    birthdayEffectsDiv.style.display = 'block';
+
+    // Zoom in and out animation
+    birthdayWishDiv.style.transform = 'scale(1.2)';
+    setTimeout(() => {
+      birthdayWishDiv.style.transform = 'scale(1)';
+    }, 1000); // 1 second delay before scaling back
+  }
+
+  function downloadWish() {
+    const wishContent = document.getElementById('birthdayWish').innerText;
+    const ageContent = document.getElementById('age').innerText;
+
+    const wishData = `Birthday Wish:\n${wishContent}\n\nAge Info:\n${ageContent}`;
+
+    const blob = new Blob([wishData], { type: "text/plain;charset=utf-8" });
+    const link = document.createElement('a');
+    link.href = window.URL.createObjectURL(blob);
+    link.download = 'birthday_wish.txt';
+    link.click();
+  }
+
+  dobInput.addEventListener('change', function() {
+    // Show the birthday wishes title when a date of birth is selected
+    birthdayWishesTitle.classList.add('show');
+  });
+</script>
+</body>
+</html>
